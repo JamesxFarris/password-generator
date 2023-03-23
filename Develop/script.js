@@ -1,4 +1,10 @@
 // Assignment Code
+
+// Create empty password array
+let userChoice = [];
+// Create the minimum of 8 characters
+let charLength = 8;
+
 // Specify letters for lowercase
 let lowerCaseChars = [
   "a",
@@ -97,24 +103,40 @@ let specialChars = [
   "~",
 ];
 
-// Specify characters 8-128. Create the minimum of 8
-let charLength = 8;
-
 let generateBtn = document.querySelector("#generate");
 
-// Grab prompts from user
-const length = prompt(
-  "How many characters would you like your password to be?"
-);
-const lowerCaseSel = confirm("Would you like lowercase letters?");
-const upperCaseSel = confirm("Would you like uppercase letters?");
-const numbersSel = confirm("Would you like numbers?");
-const specialCharSel = confirm("Would you like special characters?");
+// Create Function to get user inputs
+function grabInfo() {
+  charLength = prompt(
+    "How many characters would you like your password to be?"
+  );
+  // Check number
+  if (charLength < 8 || charLength > 128) {
+    alert("Sorry, the number has to be between 8 - 128");
+    return false;
+  }
+  // Check for what kind of characters
+  if (confirm("Would you like lowercase letters?")) {
+    userChoice = userChoice + lowerCaseChars;
+  }
+
+  if (confirm("Would you like uppercase letters?")) {
+    userChoice = userChoice + upperCaseChars;
+  }
+
+  if (confirm("Would you like numbers?")) {
+    userChoice = userChoice + numbers;
+  }
+
+  if (confirm("Would you like special characters?")) {
+    userChoice = userChoice + specialChars;
+  }
+}
+
+grabInfo();
 
 // Create function to generate the password
 function generatePassword() {}
-
-// Verify all the info
 
 // Write password to the #password input
 function writePassword() {
