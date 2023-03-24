@@ -99,52 +99,59 @@ const specialChars = [
 ];
 // Create empty password array
 let userChoice = [];
-// Create the minimum of 8 characters
-let charLength = 8;
 
 // Create Function to get user inputs
 function grabInfo() {
-  charLength = prompt(
-    "How many characters would you like your password to be?"
+  charLength = parseInt(
+    prompt("How many characters would you like your password to be?")
   );
-  // Check number, return booleans to callback later if they get it wrong
+  // Check number, return booleans to cancel if entered incorrect
   if (charLength < 8 || charLength > 128 || isNaN(charLength)) {
     alert("Sorry, the number has to be between 8 - 128");
     return false;
   }
   // Check for what kind of characters
   if (confirm("Would you like lowercase letters?")) {
-    userChoice = userChoice + lowerCaseChars;
+    userChoice = userChoice.concat(lowerCaseChars);
   }
 
   if (confirm("Would you like uppercase letters?")) {
-    userChoice = userChoice + upperCaseChars;
+    userChoice = userChoice.concat(upperCaseChars);
   }
 
   if (confirm("Would you like numbers?")) {
-    userChoice = userChoice + numbers;
+    userChoice = userChoice.concat(numbers);
   }
 
   if (confirm("Would you like special characters?")) {
-    userChoice = userChoice + specialChars;
+    userChoice = userChoice.concat(specialChars);
   }
   return true;
 }
 
-// Create function to generate the password
-function generatePassword() {}
-
 // Write password to the #password input if the user entered fields properly
+
+// Assign variables
 function writePassword() {
-  let pass = grabInfo();
+  let success = grabInfo();
+  let passwordText = document.querySelector("#password");
 
-  if (pass) {
-    let password = generatePassword();
-    let passwordText = document.querySelector("#password");
+  // If its correct generate the password
+  if (success) {
+    var modifyPass = generatePassword();
+    // Replaces the "Your Secure Password with new password"
+    passwordText.value = modifyPass;
   }
+}
 
-  // Replaces the "Your Secure Password with new password"
-  passwordText.value = password;
+// Create function to generate the password. This multiplies how many characters selected with the userChoice array, then returns password
+function generatePassword() {
+  let password = "";
+  for (var i = 0; i < charLength; i++) {
+    let randomChar = Math.floor(Math.random() * userChoice.length);
+    password = password + userChoice[randomChar];
+  }
+  return password;
 }
 
 // Add event listener to generate button
